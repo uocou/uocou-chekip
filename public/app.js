@@ -15,26 +15,15 @@ function render(me, ispData) {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
 
-  const latlon = (me.latitude && me.longitude) ? `${me.latitude}, ${me.longitude}` : '-';
-
-  // 按你指定的顺序（每行两个）：
-  // 1) IP, 国家
   add(grid, 'IP', me.ip);
   add(grid, '国家', me.country);
 
-  // 2) 州, 城市
   add(grid, '州', me.region);
   add(grid, '城市', me.city);
 
-  // 3) 邮编, 时区
   add(grid, '邮编', me.postalCode);
-  add(grid, '时区', me.timezone);
-
-  // 4) 经纬, ASN
-  add(grid, '经纬', latlon);
   add(grid, 'ASN', me.asn);
 
-  // 5) ASN Organization, ISP
   add(grid, 'ASN Organization', me.asOrganization);
 
   const isp =
@@ -47,7 +36,7 @@ async function main() {
   try {
     const [me, ispData] = await Promise.all([
       fetchJSON('/api/me'),
-      fetchJSON('/api/isp').catch(() => ({})),  // 宕机时回退
+      fetchJSON('/api/isp').catch(() => ({})),
     ]);
     render(me, ispData);
   } catch (e) {
