@@ -4,26 +4,40 @@ async function fetchJSON(url) {
   return res.json();
 }
 
+function addCard(grid, label, value, extraClass = '') {
+  const el = document.createElement('div');
+  el.className = `item ${extraClass}`.trim();
+  el.innerHTML = `<div class="key">${label}</div><div class="val">${value ?? '-'}</div>`;
+  grid.appendChild(el);
+}
+
 function renderGrid(data) {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
 
-  // 仅展示保留的字段
-  const add = (k, v) => {
-    const d = document.createElement('div');
-    d.className = 'item';
-    d.innerHTML = `<div class="key">${k}</div><div class="val">${v ?? '-'}</div>`;
-    grid.appendChild(d);
-  };
+  // 显示顺序（10个）：ip，国家，州，城市，Postal，时区，经纬，ASN，Org，运营商
+  const ipVal = data.ip;
+  const latlon = (data.latitude && data.longitude) ? `${data.latitude}, ${data.longitude}` : '-';
 
-  add('IP', data.ip);
-  add('ASN', data.asn);
-  add('运营商', data.asOrganization);
-  add('国家/地区', data.country);
-  add('省/州', data.region);
-  add('城市', data.city);
-  add('时区', data.timezone);
-  add('经纬度', (data.latitude && data.longitude) ? `${data.latitude}, ${data.longitude}` : '-');
+  // 第一行：左占位、IP（居中）、右占位
+  addCard(grid, '', '', 'placeholder');           // 第1列占位
+  addCard(grid, 'IP', ipVal);                     // 第2列居中的 IP
+  addCard(grid, '', '', 'placeholder');           // 第3列占位
+
+  // 其余按 3 列自动排版
+  const items = [
+    ['国家', data.country],
+    ['州', data.region],
+    ['城市', data.city],
+    ['Postal', data.postalCode],
+    ['时区', data.timezone],
+    ['经纬', latlon],
+    ['ASN', data.asn],
+    ['Org', data.asOrganization],
+    ['运营商', data.asOrganization],
+  ];
+
+  for (const [k, v] of items) addCard(grid, k, v);
 }
 
 async function main() {
