@@ -2,6 +2,7 @@ export const onRequestGet: PagesFunction = async ({ request }) => {
   // @ts-ignore
   const cf = request.cf || {};
   const ip = request.headers.get("CF-Connecting-IP") || request.headers.get("X-Forwarded-For") || "";
+
   const data = {
     ip,
     asn: cf.asn,
@@ -21,7 +22,11 @@ export const onRequestGet: PagesFunction = async ({ request }) => {
     ua: request.headers.get("User-Agent") || "",
     acceptLanguage: request.headers.get("Accept-Language") || "",
   };
+
   return new Response(JSON.stringify(data, null, 2), {
-    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+    },
   });
 };
