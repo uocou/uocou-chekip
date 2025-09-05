@@ -58,9 +58,7 @@ ASN Organization | ISP
 
 ## 🖼 Preview
 
-```html
-<img src="public/preview.png" alt="Preview" width="800"/>
-```
+![preview](/preview.png)
 
 ---
 
