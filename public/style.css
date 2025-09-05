@@ -1,16 +1,17 @@
 :root { color-scheme: light dark; }
 body {
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto;
-  max-width: 840px;
-  margin: 40px auto;
-  padding: 0 16px;
-  line-height: 1.6;
+  max-width: 680px;
+  margin: 28px auto;
+  padding: 0 12px;
+  line-height: 1.5;
+  font-size: 14px;
 }
 .card {
   border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  border-radius: 14px; 
+  padding: 16px; 
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
   background: #fff;
 }
 @media (prefers-color-scheme: dark) {
@@ -18,26 +19,26 @@ body {
   .card { background: #0f1621; border-color: #213042; }
   .item { background: #0c121b; }
 }
-h1 { font-size: 28px; margin: 0 0 8px; }
-.sub { color: #64748b; margin-bottom: 16px; }
+h1 { font-size: 22px; margin: 0 0 6px; } 
+.sub { color: #64748b; margin-bottom: 12px; font-size: 12px; }
 .center { text-align: center; }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 0;
 }
 .item {
-  padding: 16px 12px;
+  padding: 10px; 
   background: #f8fafc;
-  border-radius: 12px;
+  border-radius: 10px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 80px;
+  min-height: 64px;
 }
-.key { color: #475569; font-size: 12px; margin-bottom: 6px; }
-.val { font-weight: 600; word-break: break-all; }
+.key { color: #475569; font-size: 11px; margin-bottom: 4px; }
+.val { font-weight: 600; word-break: break-all; font-size: 13px; }
