@@ -2,7 +2,7 @@
 
 一个基于 **Cloudflare Pages + Pages Functions** 的极简 **IP 查询**页面。轻量、快速、即开即用。
 
-**演示（部署后可用）**：https://uocou-chekip.pages.dev
+**演示**：https://ip.uocou.com 
 
 [![GitHub](https://img.shields.io/badge/GitHub-uocou%2Fuocou--chekip-181717?logo=github)](https://github.com/uocou/uocou-chekip)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=fff)
