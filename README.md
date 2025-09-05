@@ -1,112 +1,122 @@
-# 🌐 IP Checker
+# uocou-chekip
 
-A beautiful, serverless **IP info checker** powered by **Cloudflare Pages + Pages Functions**.  
-Supports **your current IP** and **manual lookup of any IPv4/IPv6** via an input box.  
-Clean two‑column UI, centered card, compact spacing — *simple, fast, and elegant*.
+A minimalist **IP checker** built with **Cloudflare Pages + Pages Functions**. Clean, fast, and ready to deploy.
+
+**Demo:** https://uocou-chekip.pages.dev *(after deployment)*
+
+[![GitHub](https://img.shields.io/badge/GitHub-uocou%2Fuocou--chekip-181717?logo=github)](https://github.com/uocou/uocou-chekip)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=fff)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=fff)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000)
+![License: MIT](https://img.shields.io/badge/License-MIT-2ea44f)
 
 ---
 
-## ✨ Features
+### 📖 Read this in other languages:
+- **[CN 中文说明](README_CN.md)**
 
-- 🧭 **Current IP auto‑detect** (via Cloudflare edge, no third‑party call)
-- 🔍 **Manual IP lookup** (IPv4/IPv6) with input box + Enter/Click
-- 🧱 **Two‑column compact layout**, centered card, mobile‑friendly
-- 🔌 **ISP detection** (via ipwho.is) with edge caching (~120s)
-- ⚡ Zero server to manage — **fully serverless** on Cloudflare
+---
 
-Displayed fields (8 cards):
+## ✅ Features
+
+### 🎨 Design
+- Pure static front-end + serverless APIs: `index.html` / `public/style.css` / `public/app.js`
+- Centered card, compact two‑column layout
+- Clean visual style with subtle shadows & spacing
+- Smooth focus & hover states for inputs and buttons
+
+### ♿ Accessibility
+- Clear page title and landmarks
+- Keyboard-friendly focus outlines
+- Accessible button and input attributes
+
+### ⚡ Performance
+- No framework, no build step
+- Edge‑side caching for third‑party lookups
+- Minimal JavaScript, no external dependencies
+
+### 🔌 Integration
+- Cloudflare Pages + Pages Functions (no server to maintain)
+- Uses Cloudflare Edge info for ASN/Org
+- ISP via ipwho.is (with fallback in lookup)
+
+---
+
+## 🔎 What it shows (8 cards)
+
 ```
-IP | 国家
-州 | 城市
-邮编 | ASN
+IP | Country
+Region/State | City
+Postal Code | ASN
 ASN Organization | ISP
 ```
 
-> ℹ️ **Data sources & meanings**
-> - `ASN` / `ASN Organization` → **BGP/AS** info from Cloudflare edge (`request.cf`)
-> - `ISP` → **Access/retail provider** from ipwho.is (`connection.isp/org`)  
->   These may differ — *not an error*, just different perspectives (BGP vs ISP vs WHOIS).
+> `ASN/ASN Organization` come from **Cloudflare edge (BGP)**, while `ISP` comes from **ipwho.is** (access/retail brand).  
+> They can differ — this is expected (different data sources/perspectives).
 
 ---
 
-## 🗂 Project Structure
+## 🖼 Preview
 
-```
-ip-checker/
-├─ functions/
-│  └─ api/
-│     ├─ me.ts       # Cloudflare edge data (ASN/Org/国家/州/城市/邮编...)
-│     ├─ isp.ts      # ISP via ipwho.is (edge cache 120s)
-│     ├─ lookup.ts   # 🔎 Query any IP (ipwho.is → ipapi fallback, unified fields, cache 120s)
-│     └─ geo.ts      # Optional geo endpoint (currently unused by frontend)
-├─ public/
-│  ├─ favicon.svg
-│  ├─ style.css      # Centered card + compact two‑column UI
-│  └─ app.js         # Render + input lookup logic
-└─ index.html        # Page with input + button + grid
+```html
+<img src="public/preview.png" alt="Preview" width="800"/>
 ```
 
 ---
 
-## 🚀 Deploy (Cloudflare Pages)
+## 🚀 Quick Start
 
-1. Push this repo to GitHub.
-2. In **Cloudflare Dashboard → Pages → Create a project → Connect to Git**, choose your repo.
-3. **Build settings**  
-   - Build command: **(leave empty)**  
-   - Output directory: **/** (root)  
-4. Deploy and open:
+### 1) Clone repo
+```bash
+git clone https://github.com/uocou/uocou-chekip.git
+cd uocou-chekip
+```
+
+### 2) Local preview (choose one)
+
+**Best (with Cloudflare Functions):**
+```bash
+npm i -g wrangler
+wrangler pages dev .
+# usually served at http://127.0.0.1:8788
+```
+
+**Simplest (UI only; APIs won't work locally):**
+```bash
+# with Python
+python -m http.server 8000
+# or open index.html directly in your browser
+```
+
+### 3) Deploy to Cloudflare Pages
+1. Cloudflare Dashboard → **Pages** → Create a project → **Connect to Git** → choose this repo  
+2. Build settings:
+   - **Build command**: *(leave empty)*
+   - **Output directory**: `/`
+3. After deploy:
    - `https://<your-project>.pages.dev/` (Home)
    - `https://<your-project>.pages.dev/api/me` (Edge JSON)
    - `https://<your-project>.pages.dev/api/isp` (ISP JSON)
    - `https://<your-project>.pages.dev/api/lookup?ip=8.8.8.8` (Lookup API)
 
-> 🧩 Pages will auto‑detect `functions/` and enable Functions.  
-> If `/api/me` returns **404**, double‑check the folder is exactly `functions/api/me.ts` (plural).
-
----
-
-## 🧪 Local Dev (optional)
-
-```bash
-npm i -g wrangler
-wrangler pages dev .
-# Usually served at http://127.0.0.1:8788
-```
-
-Test:
-- `/` home UI
-- `/api/me`, `/api/isp`, `/api/lookup?ip=8.8.8.8`
-
 ---
 
 ## 🔐 Privacy & Third‑Party
 
-- `/api/me` uses **Cloudflare edge metadata** only (no external calls).
-- `/api/isp` & `/api/lookup` call **ipwho.is**, with ~120s edge caching.
-- `/api/lookup` falls back to **ipapi.co** if ipwho.is fails (also cached).
-
-> To avoid third‑party entirely, remove `ISP` from UI and skip `/api/isp` & `/api/lookup` calls.
+- `/api/me`: Cloudflare edge metadata only (no third‑party).
+- `/api/isp` & `/api/lookup`: use **ipwho.is**, cached ~120s; lookup falls back to **ipapi.co**.
+- To avoid third‑party entirely, remove the ISP card and related API calls.
 
 ---
 
-## 🛠 Troubleshooting
-
-- **Functions 404** → Ensure `functions/api/*.ts` path is correct; Output directory = `/`.
-- **CSS/JS 404** → Ensure assets are under `public/` and referenced as `/public/style.css`, `/public/app.js`.
-- **ISP shows ASN Org** → ipwho.is may be rate‑limited or missing data; UI falls back to `asOrganization`.
-- **Different results vs other sites** → V4/V6 routes, VPN/proxy exits, and data freshness can differ.
+## 🧰 Tech Stack
+- **Cloudflare Pages / Pages Functions**
+- **HTML + CSS + Vanilla JS**
+- No frameworks, no bundlers
 
 ---
 
-## 🎛 Customization
+## 📜 License
 
-- 🌏 Country name localization → Map country codes to Chinese names in `app.js`.
-- 🏷 Add “IP Organization (WHOIS handle)” → Add an RDAP endpoint and render org + handle (e.g., ARIN `CIL-250`).
-- 🎨 Tweak UI compactness → Edit `public/style.css` (card width, gap, font‑size).
+Licensed under the **MIT License**. See `LICENSE`.
 
----
-
-## 📄 License
-
-You can use **MIT License**. Drop a `LICENSE` (MIT) in the repo root if you need one.
