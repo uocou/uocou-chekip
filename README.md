@@ -2,7 +2,7 @@
 
 A minimalist **IP checker** built with **Cloudflare Pages + Pages Functions**. Clean, fast, and ready to deploy.
 
-**Demo:** https://uocou-chekip.pages.dev *(after deployment)*
+**Demo:** https://ip.uocou.com 
 
 [![GitHub](https://img.shields.io/badge/GitHub-uocou%2Fuocou--chekip-181717?logo=github)](https://github.com/uocou/uocou-chekip)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=fff)
