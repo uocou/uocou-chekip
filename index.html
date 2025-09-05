@@ -13,8 +13,17 @@
     <div class="sub center">Cloudflare</div>
 
     <div class="controls">
-      <input id="ipInput" placeholder="输入要查询的 IP（IPv4/IPv6），如 8.8.8.8" />
-      <button id="ipBtn">查询</button>
+      <input
+        id="ipInput"
+        type="search"
+        placeholder="输入要查询的 IP（IPv4/IPv6），如 8.8.8.8"
+        autocomplete="off"
+        spellcheck="false"
+        enterkeyhint="search"
+        aria-label="要查询的IP"
+        autofocus
+      />
+      <button id="ipBtn" class="btn-primary">查询</button>
     </div>
 
     <div class="grid" id="grid"></div>
