@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>我的 IP 查询</title>
+  <link rel="icon" href="/public/favicon.svg">
+  <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+  <div class="card">
+    <h1>你的 IP 信息</h1>
+    <div class="sub">Cloudflare Pages + Functions（无服务器）</div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="row">
+      <button id="copy">复制 IP</button>
+      <button id="refresh">刷新</button>
+      <input id="share" placeholder="分享链接（自动填充）" readonly />
+    </div>
+
+    <h3>Cloudflare 边缘 JSON（/api/me）</h3>
+    <pre><code id="json">加载中...</code></pre>
+
+    <h3>第三方（代理）JSON（/api/geo）</h3>
+    <pre><code id="json2">加载中...</code></pre>
+
+    <footer>
+      <span>© 2025 IP Checker</span>
+    </footer>
+  </div>
+
+  <script src="/public/app.js"></script>
+</body>
+</html>
