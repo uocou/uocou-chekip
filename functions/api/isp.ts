@@ -9,7 +9,6 @@ export const onRequestGet: PagesFunction = async ({ request, waitUntil }) => {
     if (!resp) {
       const upstream = await fetch(apiUrl, { cf: { cacheTtl: 120, cacheEverything: false } });
       const json = await upstream.json();
-      // ipwho.is 常见返回：connection: { isp, org, asn, ... }
       const isp = (json && json.connection && (json.connection.isp || json.connection.org)) || json.org || null;
       resp = new Response(JSON.stringify({ isp, raw_ok: json && json.success !== false ? true : false }), {
         headers: {
