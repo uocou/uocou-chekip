@@ -58,11 +58,7 @@ ASN Organization | ISP
 
 ## 🖼 预览
 
-> 需要的话，可将项目截图放到 `public/preview.png` 并在 README 中引用：
-
-```html
-<img src="public/preview.png" alt="Preview" width="800"/>
-```
+![预览图](/preview.png)
 
 ---
 
