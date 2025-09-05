@@ -4,46 +4,52 @@ async function fetchJSON(url) {
   return res.json();
 }
 
-function addCard(grid, label, value, extraClass = '') {
+function add(grid, label, value) {
   const el = document.createElement('div');
-  el.className = `item ${extraClass}`.trim();
+  el.className = 'item';
   el.innerHTML = `<div class="key">${label}</div><div class="val">${value ?? '-'}</div>`;
   grid.appendChild(el);
 }
 
-function renderGrid(data) {
+function render(me, ispData) {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
 
-  // 显示顺序（10个）：ip，国家，州，城市，Postal，时区，经纬，ASN，Org，运营商
-  const ipVal = data.ip;
-  const latlon = (data.latitude && data.longitude) ? `${data.latitude}, ${data.longitude}` : '-';
+  const latlon = (me.latitude && me.longitude) ? `${me.latitude}, ${me.longitude}` : '-';
 
-  // 第一行：左占位、IP（居中）、右占位
-  addCard(grid, '', '', 'placeholder');           // 第1列占位
-  addCard(grid, 'IP', ipVal);                     // 第2列居中的 IP
-  addCard(grid, '', '', 'placeholder');           // 第3列占位
+  // 按你指定的顺序（每行两个）：
+  // 1) IP, 国家
+  add(grid, 'IP', me.ip);
+  add(grid, '国家', me.country);
 
-  // 其余按 3 列自动排版
-  const items = [
-    ['国家', data.country],
-    ['州', data.region],
-    ['城市', data.city],
-    ['Postal', data.postalCode],
-    ['时区', data.timezone],
-    ['经纬', latlon],
-    ['ASN', data.asn],
-    ['Org', data.asOrganization],
-    ['运营商', data.asOrganization],
-  ];
+  // 2) 州, 城市
+  add(grid, '州', me.region);
+  add(grid, '城市', me.city);
 
-  for (const [k, v] of items) addCard(grid, k, v);
+  // 3) 邮编, 时区
+  add(grid, '邮编', me.postalCode);
+  add(grid, '时区', me.timezone);
+
+  // 4) 经纬, ASN
+  add(grid, '经纬', latlon);
+  add(grid, 'ASN', me.asn);
+
+  // 5) ASN Organization, ISP
+  add(grid, 'ASN Organization', me.asOrganization);
+
+  const isp =
+    (ispData && (ispData.isp || ispData.connection_isp || ispData.org)) ||
+    me.asOrganization || '-';
+  add(grid, 'ISP', isp);
 }
 
 async function main() {
   try {
-    const me = await fetchJSON('/api/me');
-    renderGrid(me);
+    const [me, ispData] = await Promise.all([
+      fetchJSON('/api/me'),
+      fetchJSON('/api/isp').catch(() => ({})),  // 宕机时回退
+    ]);
+    render(me, ispData);
   } catch (e) {
     const grid = document.getElementById('grid');
     grid.innerHTML = `<div class="item"><div class="key">错误</div><div class="val">${String(e)}</div></div>`;
